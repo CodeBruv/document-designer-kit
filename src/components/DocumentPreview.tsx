@@ -5,7 +5,7 @@ type Props = {
   visible: string[];
   order: string[];
   docTypeName: string;
-  purposeName?: string;
+  purposeName?: string | undefined;
 };
 
 export function DocumentPreview({ template: t, visible, order, docTypeName, purposeName }: Props) {

@@ -46,7 +46,9 @@ function CreateDocument() {
       const i = o.indexOf(id);
       if (i <= 0) return o;
       const next = [...o];
-      [next[i - 1], next[i]] = [next[i], next[i - 1]];
+      const prev = next[i - 1]!;
+      next[i - 1] = next[i]!;
+      next[i] = prev;
       return next;
     });
 
