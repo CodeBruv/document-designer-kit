@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, CheckCircle2, FilePlus2, Pencil } from "lucide-react";
+import { CheckCircle2, FilePlus2, Pencil } from "lucide-react";
 import { dossier, sections } from "@/lib/dossier-data";
 import { Button } from "@/components/ui/button";
 
