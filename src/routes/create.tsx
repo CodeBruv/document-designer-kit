@@ -63,16 +63,20 @@ function CreateDocument() {
   );
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-muted/40">
-      <header className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur">
-        <div className="mx-auto grid max-w-6xl grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 py-3">
+    <div className="min-h-screen overflow-x-hidden bg-background">
+      <div
+        aria-hidden
+        className="pointer-events-none fixed inset-x-0 top-0 h-72 bg-[image:var(--gradient-page)]"
+      />
+      <header className="sticky top-0 z-10 border-b border-border/60 bg-background/70 backdrop-blur-xl">
+        <div className="mx-auto grid max-w-6xl grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-5 py-3.5">
           <div className="flex min-w-0 items-center gap-2">
             <Button asChild variant="ghost" size="icon" className="shrink-0">
               <Link to="/" aria-label="Back to Dossier">
                 <ArrowLeft className="size-4" />
               </Link>
             </Button>
-            <h1 className="truncate text-base font-bold sm:text-lg">Create document</h1>
+            <h1 className="truncate text-lg font-semibold tracking-tight">Create document</h1>
           </div>
           <Button size="sm" className="shrink-0">
             Create document
@@ -80,8 +84,8 @@ function CreateDocument() {
         </div>
       </header>
 
-      <main className="mx-auto max-w-6xl gap-6 px-4 py-5 lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,420px)]">
-        <div className="min-w-0 space-y-5">
+      <main className="relative mx-auto max-w-6xl gap-8 px-5 py-7 lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,420px)]">
+        <div className="min-w-0 space-y-8">
           <Step n={1} label="What are you creating?" hint="Document type">
             <div className="grid gap-2 sm:grid-cols-2">
               {documentTypes.map((d) => (
@@ -111,8 +115,8 @@ function CreateDocument() {
 
           {/* Mobile-first template selector: compact horizontal scroller */}
           <Step n={3} label="Choose a template" hint={`${templates.length} visual styles · preview updates instantly`}>
-            <div className="-mx-4 overflow-x-auto px-4 pb-1 lg:mx-0 lg:overflow-visible lg:px-0">
-              <div className="flex w-max gap-3 lg:grid lg:w-full lg:grid-cols-5 lg:gap-3">
+            <div className="-mx-5 overflow-x-auto px-5 pb-2 lg:mx-0 lg:overflow-visible lg:px-0">
+              <div className="flex w-max gap-3.5 lg:grid lg:w-full lg:grid-cols-5 lg:gap-3.5">
                 {templates.map((t) => {
                   const active = t.id === templateId;
                   return (
@@ -121,9 +125,11 @@ function CreateDocument() {
                       type="button"
                       onClick={() => setTemplateId(t.id)}
                       aria-pressed={active}
-                      className={`w-24 shrink-0 rounded-lg border p-1.5 text-left transition lg:w-auto ${
-                        active ? "border-primary ring-2 ring-primary/30" : "border-border hover:border-primary/50"
-                      } bg-background`}
+                      className={`w-24 shrink-0 rounded-xl border p-1.5 text-left transition-all duration-200 lg:w-auto ${
+                        active
+                          ? "border-primary bg-card shadow-[var(--shadow-lift)] ring-2 ring-primary/25"
+                          : "border-border/70 bg-card shadow-[var(--shadow-card)] hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-[var(--shadow-lift)]"
+                      }`}
                     >
                       <TemplateThumb t={t} />
                       <div className="mt-1.5 flex items-center gap-1 px-0.5">
@@ -141,17 +147,17 @@ function CreateDocument() {
           {/* Mobile live preview sits right after templates */}
           <div className="lg:hidden">
             <Step n={4} label="Live preview" hint="Generated from your Dossier — nothing to save first">
-              <div className="rounded-xl bg-muted p-3">{preview}</div>
+              <div className="rounded-2xl bg-gradient-to-b from-muted to-muted/40 p-4 ring-1 ring-border/50">{preview}</div>
             </Step>
           </div>
 
           <Step n={5} label="Customize" hint="Sections, visibility and order">
-            <div className="divide-y rounded-xl border bg-card">
+            <div className="divide-y divide-border/60 rounded-2xl border border-border/70 bg-card shadow-[var(--shadow-card)]">
               {order.map((id, i) => {
                 const s = contentSections.find((x) => x.id === id)!;
                 const on = visible.includes(id);
                 return (
-                  <div key={id} className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 p-3">
+                  <div key={id} className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 p-3.5">
                     <div className="min-w-0">
                       <div className={`truncate text-sm font-medium ${on ? "" : "text-muted-foreground line-through"}`}>
                         {s.name}
@@ -175,7 +181,7 @@ function CreateDocument() {
                 );
               })}
             </div>
-            <div className="mt-3 flex flex-wrap items-center gap-4 rounded-xl border bg-card p-3 text-sm">
+            <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-3 rounded-2xl border border-border/70 bg-card p-4 text-sm shadow-[var(--shadow-card)]">
               <label className="flex items-center gap-2">
                 <Switch defaultChecked aria-label="Include contact details" />
                 Contact details
@@ -191,15 +197,15 @@ function CreateDocument() {
 
         {/* Desktop sticky live preview */}
         <aside className="hidden lg:block">
-          <div className="sticky top-20 space-y-2">
+          <div className="sticky top-20 space-y-3">
             <div className="flex items-center justify-between">
-              <h2 className="text-sm font-semibold">Live preview</h2>
-              <span className="text-xs text-muted-foreground">
+              <h2 className="text-sm font-semibold tracking-tight">Live preview</h2>
+              <span className="rounded-full bg-muted px-2.5 py-1 text-[11px] font-medium text-muted-foreground">
                 {docTypeName} · {template.name}
               </span>
             </div>
-            <div className="rounded-xl bg-muted p-4">{preview}</div>
-            <p className="text-xs text-muted-foreground">
+            <div className="rounded-2xl bg-gradient-to-b from-muted to-muted/40 p-5 ring-1 ring-border/50">{preview}</div>
+            <p className="text-xs leading-relaxed text-muted-foreground">
               Built from your Dossier. No saving required to preview.
             </p>
           </div>
@@ -212,13 +218,13 @@ function CreateDocument() {
 function Step({ n, label, hint, children }: { n: number; label: string; hint?: string; children: React.ReactNode }) {
   return (
     <section>
-      <div className="mb-2 flex min-w-0 items-baseline gap-2">
-        <span className="shrink-0 rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">
+      <div className="mb-2 flex min-w-0 items-baseline gap-2.5">
+        <span className="shrink-0 rounded-full bg-primary/10 px-2.5 py-0.5 text-[10px] font-semibold tracking-wider text-primary">
           STEP {n}
         </span>
-        <h2 className="truncate text-sm font-semibold uppercase tracking-wide">{label}</h2>
+        <h2 className="truncate text-sm font-semibold tracking-tight">{label}</h2>
       </div>
-      {hint ? <p className="mb-3 text-xs text-muted-foreground">{hint}</p> : null}
+      {hint ? <p className="mb-3.5 text-xs text-muted-foreground">{hint}</p> : null}
       {children}
     </section>
   );
@@ -230,8 +236,10 @@ function Choice({ selected, onClick, title, desc }: { selected: boolean; onClick
       type="button"
       onClick={onClick}
       aria-pressed={selected}
-      className={`rounded-xl border bg-card p-3 text-left transition ${
-        selected ? "border-primary ring-2 ring-primary/25" : "hover:border-primary/50"
+      className={`rounded-2xl border bg-card p-4 text-left transition-all duration-200 shadow-[var(--shadow-card)] ${
+        selected
+          ? "border-primary ring-2 ring-primary/20"
+          : "border-border/70 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-[var(--shadow-lift)]"
       }`}
     >
       <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2">
@@ -249,8 +257,10 @@ function Pill({ selected, onClick, children }: { selected: boolean; onClick: () 
       type="button"
       onClick={onClick}
       aria-pressed={selected}
-      className={`rounded-full border px-3 py-1.5 text-sm transition ${
-        selected ? "border-primary bg-primary/10 text-primary" : "bg-card hover:border-primary/50"
+      className={`rounded-full border px-4 py-2 text-sm font-medium transition-all duration-200 ${
+        selected
+          ? "border-primary bg-primary/10 text-primary shadow-sm"
+          : "border-border/70 bg-card hover:border-primary/40 hover:bg-accent"
       }`}
     >
       {children}

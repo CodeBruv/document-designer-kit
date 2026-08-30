@@ -51,7 +51,7 @@ export function DocumentPreview({ template: t, visible, order, docTypeName, purp
 
   return (
     <div
-      className="mx-auto w-full max-w-[520px] overflow-hidden rounded-lg bg-card shadow-[var(--shadow-page)] ring-1 ring-border"
+      className="mx-auto w-full max-w-[520px] overflow-hidden rounded-xl bg-white text-slate-800 shadow-[var(--shadow-page)] ring-1 ring-black/5"
       style={{ fontFamily: t.font }}
     >
       {t.layout === "banner" ? (
